@@ -1,15 +1,6 @@
 import { prisma } from "../db/client";
 import { Transaction } from "../entities/transaction";
-
-interface PaginatedResponse<T> {
-  data: T[];
-  metadata: {
-    currentPage: number;
-    totalPages: number;
-    totalItems: number;
-    itemsPerPage: number;
-  };
-}
+import { PaginatedResponse } from "../types/responses";
 
 export default class TransactionService {
   public async getAllTransactionByAddress(
