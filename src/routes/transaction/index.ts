@@ -1,4 +1,4 @@
-import {
+import fastify, {
   FastifyInstance,
   FastifyPluginOptions,
   FastifyReply,
@@ -7,6 +7,7 @@ import {
 import TransactionService from "../../services/transaction.service";
 import { schemas } from "../../schemas/schemas";
 import { AddressParams, PaginationParams } from "../../types/requests";
+import { appContext } from "../../appContext";
 
 export default async function transactionRoutes(
   fastify: FastifyInstance,
@@ -37,9 +38,14 @@ export async function getAllTransactionByAddress(
   reply: FastifyReply
 ) {
   const { address } = request.params;
-  const test = new TransactionService();
-  const result = await test.getAllTransactionByAddress(address);
-  return reply.status(200).send(result);
+  try {
+    const result =
+      await appContext.service.trxService.getAllTransactionByAddress(address);
+    return reply.status(200).send(result);
+  } catch (e) {
+    request.log.error(JSON.stringify(e));
+    throw new Error(`Generic error occurs: ${JSON.stringify(e)}`);
+  }
 }
 
 export async function getNumberOfTransactionByAddress(
@@ -47,8 +53,10 @@ export async function getNumberOfTransactionByAddress(
   reply: FastifyReply
 ) {
   const { address } = request.params;
-  const test = new TransactionService();
-  const result = await test.getNumberOfTransactionByAddress(address);
+  const result =
+    await appContext.service.trxService.getNumberOfTransactionByAddress(
+      address
+    );
   return reply.status(200).send(result);
 }
 
@@ -60,7 +68,6 @@ export async function getTrx(
 ) {
   const page = request.query.page || 1;
   const limit = request.query.limit || 10;
-  const test = new TransactionService();
-  const result = await test.getAllTrxs(page, limit);
+  const result = await appContext.service.trxService.getAllTrxs(page, limit);
   return reply.status(200).send(result);
 }
