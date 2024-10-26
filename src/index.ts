@@ -1,5 +1,9 @@
 import Fastify from "fastify";
-import routes from "./routes";
+import {
+  getAllTransactionByAddress,
+  getNumberOfTransactionByAddress,
+  getTrx,
+} from "./routes";
 
 async function startServer() {
   const fastify = Fastify({
@@ -7,7 +11,9 @@ async function startServer() {
   });
 
   // Register your routes
-  await fastify.register(routes);
+  await fastify.register(getAllTransactionByAddress);
+  await fastify.register(getNumberOfTransactionByAddress);
+  await fastify.register(getTrx);
 
   try {
     await fastify.listen({ port: 3000 });
