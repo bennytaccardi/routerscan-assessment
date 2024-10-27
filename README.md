@@ -1,88 +1,128 @@
-# Blockchain Transaction API
+# 🔗 Blockchain Transaction API
 
-This project provides a real-time database of C-Chain blockchain transactions and exposes an API for querying transaction data.
+A real-time transaction tracking system for C-Chain blockchain with REST API endpoints for querying transaction data.
+
+## 📋 Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+- [Testing](#testing)
+- [API Reference](#api-reference)
+  - [Get All Transactions](#get-all-transactions)
+  - [Get Transactions by Address](#get-transactions-by-address)
+  - [Count Transactions by Address](#count-transactions-by-address)
+  - [Sort Transactions](#sort-transactions)
 
 ## Prerequisites
 
-Ensure you have the following installed:
+Before you begin, ensure you have installed:
 
-- [Docker](https://docs.docker.com/get-docker/)
-- [pnpm](https://pnpm.io/installation)
+- [Docker](https://docs.docker.com/get-docker/) - For containerization
+- [pnpm](https://pnpm.io/installation) - Package manager
 
-## Setup
+## Installation
 
-1. Clone the repository and navigate to its root directory.
+1. Clone the repository
 
-2. Start the Docker containers:
-   ```bash
-   docker-compose up -d
-   ```
-3. Run the following command to setup the entire system:
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
 
-   ```
-   pnpm run setup
+2. Start Docker containers
 
-   ```
+```bash
+docker-compose up -d
+```
 
-4. Start the application:
+## Getting Started
 
-   ```
-   pnpm run dev
+1. Set up the system
 
-   ```
+```bash
+pnpm run setup
+```
 
-   The application should now be running at http://localhost:3000
+2. Start the development server
+
+```bash
+pnpm run dev
+```
+
+The API will be available at `http://localhost:3000` 🚀
 
 ## Testing
 
-To run tests, use the following command:
+Run the test suite using:
 
 ```bash
 pnpm run test
 ```
 
-## API Usage
+## API Reference
 
 ### Get All Transactions
 
-Retrieve a paginated list of transactions using the following API endpoint:
+Retrieve a paginated list of blockchain transactions.
+
+```http
+GET /transactions/get-all-trx
+```
+
+#### Query Parameters
+
+| Parameter | Type    | Description                     | Default |
+| --------- | ------- | ------------------------------- | ------- |
+| page      | integer | Page number                     | 1       |
+| limit     | integer | Number of transactions per page | 10      |
+
+#### Example Request
 
 ```bash
 curl --location 'http://localhost:3000/transactions/get-all-trx?page=2&limit=1000'
 ```
 
-Method: GET
-Endpoint: /transactions/get-all-trx
-Query Parameters:
-
-- page: Page number of transactions to retrieve (default is 1).
-- limit: Number of transactions per page (default is 10).
-
 ### Get Transactions by Address
 
-Retrieve all transactions made to or from a specific address:
+Retrieve all transactions associated with a specific blockchain address.
 
-```bash
-curl --location 'http://localhost:3000/transactions/trx-address/{address}'
+```http
+GET /transactions/trx-address/{address}
 ```
 
-Method: GET
-Endpoint: /transactions/trx-address/{address}
-Path Parameter: address - Address to search transactions for.
+#### Path Parameters
+
+| Parameter | Type   | Description        |
+| --------- | ------ | ------------------ |
+| address   | string | Blockchain address |
+
+#### Example Request
+
+```bash
+curl --location 'http://localhost:3000/transactions/trx-address/0x1234...'
+```
 
 ### Count Transactions by Address
 
-Get the total number of transactions involving a specific address:
+Get the total number of transactions for a specific address.
 
-```bash
-curl --location 'http://localhost:3000/transactions/count-trx-address/{address}'
-
+```http
+GET /transactions/count-trx-address/{address}
 ```
 
-Method: GET
-Endpoint: /transactions/count-trx-address/{address}
-Path Parameter: address - Address to count transactions for.
+#### Path Parameters
 
-### Sorted Transactions by Value
+| Parameter | Type   | Description        |
+| --------- | ------ | ------------------ |
+| address   | string | Blockchain address |
 
-To retrieve transactions ordered by the value transferred, refer to the sorting options in the `/transactions/get-all-trx` endpoint.
+#### Example Request
+
+```bash
+curl --location 'http://localhost:3000/transactions/count-trx-address/0x1234...'
+```
+
+### Sort Transactions
+
+The `/transactions/get-all-trx` endpoint supports sorting transactions by their value. Use the query parameters to specify sorting options.
