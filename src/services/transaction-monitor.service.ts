@@ -46,7 +46,7 @@ export default class TransactionMonitor {
     this.isProcessing = false;
   }
 
-  private async processNewBlocks() {
+  async processNewBlocks() {
     const currentBlock = await this.client.getBlockNumber();
 
     if (currentBlock <= this.lastProcessedBlock) {

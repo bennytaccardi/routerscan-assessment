@@ -1,7 +1,14 @@
 import TransactionMonitor from "./services/transaction-monitor.service";
 import TransactionService from "./services/transaction.service";
 
-const initAppContext = () => {
+export interface IAppContext {
+  service: {
+    trxService: TransactionService;
+    trxMonitor: TransactionMonitor;
+  };
+}
+
+const initAppContext = (): IAppContext => {
   const trxService = new TransactionService();
   const trxMonitor = new TransactionMonitor();
 
