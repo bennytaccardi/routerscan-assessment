@@ -1,3 +1,5 @@
+import { Decimal } from "@prisma/client/runtime/library";
+
 export interface Transaction {
   timestamp: Date;
   status: boolean;
@@ -5,8 +7,8 @@ export interface Transaction {
   tx_index: number;
   from: string;
   to: string;
-  value: bigint;
+  value: Decimal;
   gas_limit: number;
   gas_used: number;
-  gas_price: bigint;
+  gas_price: Decimal;
 }

@@ -1,10 +1,9 @@
-import fastify, {
+import {
   FastifyInstance,
   FastifyPluginOptions,
   FastifyReply,
   FastifyRequest,
 } from "fastify";
-import TransactionService from "../../services/transaction.service";
 import { schemas } from "../../schemas/schemas";
 import { AddressParams, PaginationParams } from "../../types/requests";
 import { appContext } from "../../appContext";

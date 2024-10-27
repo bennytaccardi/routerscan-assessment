@@ -71,4 +71,28 @@ export default class TransactionService {
       },
     };
   }
+
+  public async saveTransactions(transactions: Transaction[]) {
+    try {
+      await prisma.transaction.createMany({
+        data: transactions.map((tx) => ({
+          timestamp: tx.timestamp,
+          status: tx.status,
+          block_number: tx.block_number,
+          tx_index: tx.tx_index,
+          from: tx.from,
+          to: tx.to,
+          value: tx.value,
+          gas_limit: tx.gas_limit,
+          gas_used: tx.gas_used,
+          gas_price: tx.gas_price,
+        })),
+        skipDuplicates: true,
+      });
+      console.log(`Saved ${transactions.length} transactions`);
+    } catch (error) {
+      console.error("Error saving transactions:", error);
+      throw error;
+    }
+  }
 }
