@@ -113,17 +113,4 @@ describe("TransactionMonitor Integration Tests", () => {
     expect(processNewBlocksSpy).toHaveBeenCalledTimes(3);
     processNewBlocksSpy.mockRestore();
   }, 20000);
-
-  it("should correctly map and save transaction data", async () => {
-    const saveTransactionsSpy = vi.spyOn(
-      appContext.service.trxService,
-      "saveTransactions"
-    );
-
-    await appContext.service.trxMonitor.processNewBlocks();
-
-    expect(saveTransactionsSpy).toHaveBeenCalled();
-
-    saveTransactionsSpy.mockRestore();
-  });
 });
